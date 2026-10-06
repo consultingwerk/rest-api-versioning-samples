@@ -65,22 +65,60 @@ timeline
 v1:
 
 ```json
-{ "Ordernum": 1001, "CustNum": 3001, "Name": "Golden Gate Bikes", "Address": "1 Test Street", "Address2": "",
-  "PostalCode": "94016", "City": "San Francisco", "State": "CA", "Country": "USA",
-  "OrderDate": "2026-07-01", "ShipDate": null, "PromiseDate": "2026-07-15", "Carrier": "UPS", "Instructions": "",
-  "PO": "PO-4711", "Terms": "Net30", "SalesRep": "BBB", "BillToID": 1, "ShipToID": 2, "OrderStatus": "Ordered",
-  "WarehouseNum": 1, "Creditcard": "Visa" }
+{
+  "Ordernum": 1001,
+  "CustNum": 3001,
+  "Name": "Golden Gate Bikes",
+  "Address": "1 Test Street",
+  "Address2": "",
+  "PostalCode": "94016",
+  "City": "San Francisco",
+  "State": "CA",
+  "Country": "USA",
+  "OrderDate": "2026-07-01",
+  "ShipDate": null,
+  "PromiseDate": "2026-07-15",
+  "Carrier": "UPS",
+  "Instructions": "",
+  "PO": "PO-4711",
+  "Terms": "Net30",
+  "SalesRep": "BBB",
+  "BillToID": 1,
+  "ShipToID": 2,
+  "OrderStatus": "Ordered",
+  "WarehouseNum": 1,
+  "Creditcard": "Visa"
+}
 ```
 
 v2:
 
 ```json
-{ "Ordernum": 1001,
-  "Customer": { "CustNum": 3001, "Name": "Golden Gate Bikes", "Address": "1 Test Street", "Address2": "",
-                "PostalCode": "94016", "City": "San Francisco", "State": "CA", "Country": "USA" },
-  "OrderDate": "2026-07-01", "ShipDate": null, "PromiseDate": "2026-07-15", "Carrier": "UPS", "Instructions": "",
-  "PO": "PO-4711", "Terms": "Net30", "SalesRep": "BBB", "BillToID": 1, "ShipToID": 2, "OrderStatus": "Ordered",
-  "Creditcard": "Visa" }
+{
+  "Ordernum": 1001,
+  "Customer": {
+    "CustNum": 3001,
+    "Name": "Golden Gate Bikes",
+    "Address": "1 Test Street",
+    "Address2": "",
+    "PostalCode": "94016",
+    "City": "San Francisco",
+    "State": "CA",
+    "Country": "USA"
+  },
+  "OrderDate": "2026-07-01",
+  "ShipDate": null,
+  "PromiseDate": "2026-07-15",
+  "Carrier": "UPS",
+  "Instructions": "",
+  "PO": "PO-4711",
+  "Terms": "Net30",
+  "SalesRep": "BBB",
+  "BillToID": 1,
+  "ShipToID": 2,
+  "OrderStatus": "Ordered",
+  "Creditcard": "Visa"
+}
 ```
 
 ## Architecture: one business logic, many contracts
@@ -249,9 +287,18 @@ Every error is an [RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) problem det
 document (`application/problem+json`):
 
 ```json
-{ "type": "about:blank", "title": "Unknown field", "status": 400,
+{
+  "type": "about:blank",
+  "title": "Unknown field",
+  "status": 400,
   "detail": "The field WarehouseNum is not part of this version of the API.",
-  "errors": [ { "message": "The field WarehouseNum is not part of this version of the API.", "field": "WarehouseNum" } ] }
+  "errors": [
+    {
+      "message": "The field WarehouseNum is not part of this version of the API.",
+      "field": "WarehouseNum"
+    }
+  ]
+}
 ```
 
 | Status | When | Extra headers |
