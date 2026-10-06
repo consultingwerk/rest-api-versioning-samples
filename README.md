@@ -334,7 +334,29 @@ Hand-written OpenAPI 3.0 documents in `Demo/RestApiVersioning/OpenApi/`:
 - PATCH bodies use the same schemas without `required`.
 
 `Web.OpenApiDocumentHandler` serves the documents (`/openapi/{Document}`) and a Swagger UI
-page with a drop-down of all three (`/openapi`, Swagger UI loaded from unpkg.com).
+page with a drop-down of all three (`/openapi`).
+
+### Opening Swagger UI
+
+Replace `<hostname>` and `<port>` with the host name and the HTTP port of your PASOE instance
+(`/web` is the web transport of the ROOT web application; use `https` with the HTTPS port):
+
+| What | URL |
+|---|---|
+| Swagger UI with a drop-down of all three documents | `http://<hostname>:<port>/web/openapi` |
+| Swagger UI opened on one document | `http://<hostname>:<port>/web/openapi?urls.primaryName=URI%20versioning%20-%20v1%20(deprecated)` |
+| Media type variant (JSON) | `http://<hostname>:<port>/web/openapi/orders-mediatype.openapi.json` |
+| URI variant, v2 (JSON) | `http://<hostname>:<port>/web/openapi/orders-v2.openapi.json` |
+| URI variant, v1 (JSON) | `http://<hostname>:<port>/web/openapi/orders-v1.openapi.json` |
+
+The names for `urls.primaryName` are the entries of the drop-down: `Media type versioning (one URI)`,
+`URI versioning - v2 (current)` and `URI versioning - v1 (deprecated)`.
+
+- The page loads Swagger UI from unpkg.com, so the browser needs internet access.
+- The documents use the relative server URLs `/web`, `/web/v1`, `/web/api/v1`, ... "Try it out"
+  therefore calls the same host and port the page was loaded from.
+- Requirements: the handler registrations and the `oeablSecurity.csv` rules of `Demo/RestApiVersioning/Deployment`
+  (see [Deployment](#deployment)).
 
 ## Package layout
 
@@ -371,7 +393,8 @@ expected status codes.
 3. Allow access in `webapps/ROOT/WEB-INF/oeablSecurity.csv`. `Demo/RestApiVersioning/Deployment/oeablSecurity.csv`
    uses `permitAll()` for the demo. Use your authentication for anything real.
 
-Then open `http://localhost:8820/web/openapi` and run `Demo/RestApiVersioning/demo-script.md`.
+Then open `http://<hostname>:<port>/web/openapi` (see [Opening Swagger UI](#opening-swagger-ui)) and run
+`Demo/RestApiVersioning/demo-script.md`.
 
 ## Requirements and dependencies
 
