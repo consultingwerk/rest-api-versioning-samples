@@ -28,6 +28,20 @@ curl -i -X PUT $BASE/simple/Orders/42 \
 curl -i -X DELETE $BASE/simple/Orders/42                         # 405 (HandleNotAllowedMethod)
 ```
 
+The same order, versioned in the simplest possible way - direct record access, GET only:
+
+```bash
+curl -i $BASE/simple/media/Orders/$ORDER -H "Accept: $V1"        # 200 v1 (flat), Content-Type ...v1+json, Vary: Accept
+curl -i $BASE/simple/media/Orders/$ORDER -H "Accept: $V2"        # 200 v2 (nested Customer)
+curl -i $BASE/simple/media/Orders/$ORDER                         # 200 no Accept --> v2
+curl -i $BASE/simple/media/Orders/$ORDER -H "Accept: text/html"  # 406
+curl -i $BASE/simple/v1/Orders/$ORDER                            # 200 v1 (flat)
+curl -i $BASE/simple/v2/Orders/$ORDER                            # 200 v2 (nested Customer)
+curl -i $BASE/simple/v0/Orders/$ORDER                            # 410
+curl -i $BASE/simple/v9/Orders/$ORDER                            # 404 unknown version
+curl -i $BASE/simple/v2/Orders/99999999                          # 404 unknown order
+```
+
 ## 1. URI versioning - fixed URIs
 
 ### v2 - current

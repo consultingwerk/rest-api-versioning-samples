@@ -8,6 +8,16 @@
             "enabled": true
         },
         {
+            "class": "Demo.RestApiVersioning.Simple.SimpleOrderMediaTypeHandler",
+            "uri": "/simple/media/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.Simple.SimpleOrderPathParameterHandler",
+            "uri": "/simple/{Version}/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
             "class": "Demo.RestApiVersioning.UriFixed.OrdersV0Handler",
             "uri": "/v0/Orders/{Ordernum}",
             "enabled": true

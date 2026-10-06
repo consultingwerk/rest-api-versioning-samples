@@ -342,7 +342,7 @@ All packages live under `Demo/RestApiVersioning` (package `Demo.RestApiVersionin
 
 | Package | Content |
 |---|---|
-| `Simple` | `SimpleOrderHandler` - a minimal web handler (no database), the introduction |
+| `Simple` | the introduction, plain `OpenEdge.Web.WebHandler` without framework, GET only, direct record access: `SimpleOrderHandler` (a minimal web handler, no database), `SimpleOrderMediaTypeHandler` (`/simple/media/Orders/{Ordernum}`, v1 / v2 from the `Accept` header, no q-values), `SimpleOrderPathParameterHandler` (`/simple/{Version}/Orders/{Ordernum}`), `SimpleOrderJson` (v1 / v2 as field lists of the records) |
 | `Order` | the ONE implementation: `IOrderHeaderV1`, `IOrderHeaderV2`, `ICustomerV2`, `OrderHeader`, `OrderCustomer`, `TrackedObject`, `OrderService`, `OrderDataAccess`, business errors |
 | `Adapters` | `IOrderReader` / `IOrderWriter`, `OrderV1Reader`, `OrderV1Writer`, `OrderV2Reader`, `OrderV2Writer`, `JsonReader` (unknown / required fields, typed getters), `MergeMode` |
 | `Web` | `OrderHandlerBase` (the HTTP flow), `OpenApiDocumentHandler` |
@@ -375,7 +375,7 @@ Then open `http://localhost:8820/web/openapi` and run `Demo/RestApiVersioning/de
 
 ## Requirements and dependencies
 
-- OpenEdge 12.2 or later. `Demo/RestApiVersioning/Simple/SimpleOrderHandler.cls` uses the `VAR` statement and needs 12.3+.
+- OpenEdge 12.2 or later. The classes in `Demo/RestApiVersioning/Simple` use the `VAR` statement and need 12.3+.
 - The `sports2000` database.
 - The **SmartComponent Library** (Consultingwerk) provides the error handling of the web handlers:
   - `Consultingwerk.OERA.JsdoGenericService.WebHandler.SmartWebHandler` (base class of
