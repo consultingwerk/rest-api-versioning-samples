@@ -416,5 +416,4 @@ Then open `http://<hostname>:<port>/web/openapi` (see [Opening Swagger UI](#open
 
 ## License
 
-Copyright (c) 2026 Consultingwerk Ltd. Sample code, distributed "AS IS", without warranty of
-any kind.
+The samples are licensed under the [MIT License](LICENSE.md).
