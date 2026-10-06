@@ -1,0 +1,71 @@
+{
+    "version": "2.0",
+    "serviceName": "",
+    "handlers": [
+        {
+            "class": "Demo.RestApiVersioning.Simple.SimpleOrderHandler",
+            "uri": "/simple/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriFixed.OrdersV0Handler",
+            "uri": "/v0/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriFixed.OrdersV0Handler",
+            "uri": "/v0/Orders",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriFixed.OrdersV1Handler",
+            "uri": "/v1/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriFixed.OrdersV1Handler",
+            "uri": "/v1/Orders",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriFixed.OrdersV2Handler",
+            "uri": "/v2/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriFixed.OrdersV2Handler",
+            "uri": "/v2/Orders",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriVersion.OrdersHandler",
+            "uri": "/api/{Version}/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.UriVersion.OrdersHandler",
+            "uri": "/api/{Version}/Orders",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.MediaType.OrdersHandler",
+            "uri": "/Orders/{Ordernum}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.MediaType.OrdersHandler",
+            "uri": "/Orders",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.Web.OpenApiDocumentHandler",
+            "uri": "/openapi/{Document}",
+            "enabled": true
+        },
+        {
+            "class": "Demo.RestApiVersioning.Web.OpenApiDocumentHandler",
+            "uri": "/openapi",
+            "enabled": true
+        }
+    ]
+}

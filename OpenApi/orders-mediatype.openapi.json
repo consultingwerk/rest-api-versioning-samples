@@ -1,0 +1,2264 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sports2000 Orders API - media type versioning",
+    "version": "2.0.0",
+    "description": "One URI, the media type selects the version. Accept selects the version of the response, Content-Type the version of the request body. application/vnd.sports2000.order.v2+json (or application/json, a wildcard or no Accept header) is the current version. application/vnd.sports2000.order.v1+json is DEPRECATED (schemas marked deprecated; responses carry Deprecation, Sunset and Link headers). application/vnd.sports2000.order.v0+json has been switched off (410). Every response carries Vary: Accept."
+  },
+  "servers": [
+    {
+      "url": "/web",
+      "description": "Media type variant"
+    }
+  ],
+  "paths": {
+    "/Orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "List orders (paged)",
+        "responses": {
+          "200": {
+            "description": "A page of orders",
+            "content": {
+              "application/vnd.sports2000.order.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2Page"
+                }
+              },
+              "application/vnd.sports2000.order.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV1Page"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2Page"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unknown field, missing required field or invalid value",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "skip",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "top",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Create an order",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/vnd.sports2000.order.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              },
+              "application/vnd.sports2000.order.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV1"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              },
+              "Location": {
+                "description": "URI of the new order",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unknown field, missing required field or invalid value",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/vnd.sports2000.order.v2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV2Post"
+              }
+            },
+            "application/vnd.sports2000.order.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV1Post"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV2Post"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Not supported - DELETE is not part of any version",
+        "responses": {
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              },
+              "Allow": {
+                "description": "The methods the resource supports (RFC 9110)",
+                "schema": {
+                  "type": "string",
+                  "example": "GET, PUT, PATCH"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Orders/{Ordernum}": {
+      "parameters": [
+        {
+          "name": "Ordernum",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          },
+          "example": 1001
+        }
+      ],
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Read an order",
+        "responses": {
+          "200": {
+            "description": "The order",
+            "content": {
+              "application/vnd.sports2000.order.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              },
+              "application/vnd.sports2000.order.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV1"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Replace an order (complete writable representation)",
+        "responses": {
+          "200": {
+            "description": "The updated order",
+            "content": {
+              "application/vnd.sports2000.order.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              },
+              "application/vnd.sports2000.order.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV1"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unknown field, missing required field or invalid value",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/vnd.sports2000.order.v2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV2Put"
+              }
+            },
+            "application/vnd.sports2000.order.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV1Put"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV2Put"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Change single fields of an order (null sets the value to unknown)",
+        "responses": {
+          "200": {
+            "description": "The updated order",
+            "content": {
+              "application/vnd.sports2000.order.v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              },
+              "application/vnd.sports2000.order.v1+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV1"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderV2"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unknown field, missing required field or invalid value",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/vnd.sports2000.order.v2+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV2Patch"
+              }
+            },
+            "application/vnd.sports2000.order.v1+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV1Patch"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderV2Patch"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Not supported - DELETE is not part of any version",
+        "responses": {
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              },
+              "Deprecation": {
+                "description": "RFC 9745 - deprecated since 2026-07-01 (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "@1782864000"
+                }
+              },
+              "Sunset": {
+                "description": "RFC 8594 - switched off after this date (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "Wed, 30 Jun 2027 23:59:59 GMT"
+                }
+              },
+              "Link": {
+                "description": "rel=\"deprecation\": the migration guide (v1 only)",
+                "schema": {
+                  "type": "string",
+                  "example": "<https://docs.example.com/api/orders/migrate-v2>; rel=\"deprecation\"; type=\"text/html\""
+                }
+              },
+              "Allow": {
+                "description": "The methods the resource supports (RFC 9110)",
+                "schema": {
+                  "type": "string",
+                  "example": "GET, PUT, PATCH"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "None of the media types in Accept is supported",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "Version v0 (application/vnd.sports2000.order.v0+json) has been switched off",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Content-Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "Vary": {
+                "description": "Always Accept",
+                "schema": {
+                  "type": "string",
+                  "example": "Accept"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrderV1": {
+        "type": "object",
+        "description": "Order (v1, flat). Address fields are read-only and ignored on writes.",
+        "deprecated": true,
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "CustNum": {
+            "type": "integer",
+            "description": "Customer number"
+          },
+          "Name": {
+            "type": "string",
+            "description": "Customer name (read-only)",
+            "readOnly": true
+          },
+          "Address": {
+            "type": "string",
+            "description": "Customer address (read-only)",
+            "readOnly": true
+          },
+          "Address2": {
+            "type": "string",
+            "description": "Customer address line 2 (read-only)",
+            "readOnly": true
+          },
+          "PostalCode": {
+            "type": "string",
+            "description": "Customer postal code (read-only)",
+            "readOnly": true
+          },
+          "City": {
+            "type": "string",
+            "description": "Customer city (read-only)",
+            "readOnly": true
+          },
+          "State": {
+            "type": "string",
+            "description": "Customer state (read-only)",
+            "readOnly": true
+          },
+          "Country": {
+            "type": "string",
+            "description": "Customer country (read-only)",
+            "readOnly": true
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "WarehouseNum": {
+            "type": "integer",
+            "description": "Warehouse number - removed in v2",
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "example": {
+          "Ordernum": 1001,
+          "CustNum": 3001,
+          "Name": "Golden Gate Bikes",
+          "Address": "1 Test Street",
+          "Address2": "",
+          "PostalCode": "94016",
+          "City": "San Francisco",
+          "State": "CA",
+          "Country": "USA",
+          "OrderDate": "2026-07-01",
+          "ShipDate": null,
+          "PromiseDate": "2026-07-15",
+          "Carrier": "UPS",
+          "Instructions": "Leave at the door",
+          "PO": "PO-4711",
+          "Terms": "Net30",
+          "SalesRep": "BBB",
+          "BillToID": 1,
+          "ShipToID": 2,
+          "OrderStatus": "Ordered",
+          "WarehouseNum": 1,
+          "Creditcard": "Visa"
+        }
+      },
+      "OrderV1Post": {
+        "type": "object",
+        "description": "POST body (v1): CustNum is required, unknown fields are rejected with 400",
+        "deprecated": true,
+        "required": [
+          "CustNum"
+        ],
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "CustNum": {
+            "type": "integer",
+            "description": "Customer number"
+          },
+          "Name": {
+            "type": "string",
+            "description": "Customer name (read-only)",
+            "readOnly": true
+          },
+          "Address": {
+            "type": "string",
+            "description": "Customer address (read-only)",
+            "readOnly": true
+          },
+          "Address2": {
+            "type": "string",
+            "description": "Customer address line 2 (read-only)",
+            "readOnly": true
+          },
+          "PostalCode": {
+            "type": "string",
+            "description": "Customer postal code (read-only)",
+            "readOnly": true
+          },
+          "City": {
+            "type": "string",
+            "description": "Customer city (read-only)",
+            "readOnly": true
+          },
+          "State": {
+            "type": "string",
+            "description": "Customer state (read-only)",
+            "readOnly": true
+          },
+          "Country": {
+            "type": "string",
+            "description": "Customer country (read-only)",
+            "readOnly": true
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "WarehouseNum": {
+            "type": "integer",
+            "description": "Warehouse number - removed in v2",
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV1Put": {
+        "type": "object",
+        "description": "PUT body (v1): the complete writable representation",
+        "deprecated": true,
+        "required": [
+          "CustNum",
+          "OrderDate",
+          "ShipDate",
+          "PromiseDate",
+          "Carrier",
+          "Instructions",
+          "PO",
+          "Terms",
+          "SalesRep",
+          "BillToID",
+          "ShipToID",
+          "OrderStatus",
+          "WarehouseNum",
+          "Creditcard"
+        ],
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "CustNum": {
+            "type": "integer",
+            "description": "Customer number"
+          },
+          "Name": {
+            "type": "string",
+            "description": "Customer name (read-only)",
+            "readOnly": true
+          },
+          "Address": {
+            "type": "string",
+            "description": "Customer address (read-only)",
+            "readOnly": true
+          },
+          "Address2": {
+            "type": "string",
+            "description": "Customer address line 2 (read-only)",
+            "readOnly": true
+          },
+          "PostalCode": {
+            "type": "string",
+            "description": "Customer postal code (read-only)",
+            "readOnly": true
+          },
+          "City": {
+            "type": "string",
+            "description": "Customer city (read-only)",
+            "readOnly": true
+          },
+          "State": {
+            "type": "string",
+            "description": "Customer state (read-only)",
+            "readOnly": true
+          },
+          "Country": {
+            "type": "string",
+            "description": "Customer country (read-only)",
+            "readOnly": true
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "WarehouseNum": {
+            "type": "integer",
+            "description": "Warehouse number - removed in v2",
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV1Patch": {
+        "type": "object",
+        "description": "PATCH body (v1): only the fields to change, null sets the value to unknown",
+        "deprecated": true,
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "CustNum": {
+            "type": "integer",
+            "description": "Customer number"
+          },
+          "Name": {
+            "type": "string",
+            "description": "Customer name (read-only)",
+            "readOnly": true
+          },
+          "Address": {
+            "type": "string",
+            "description": "Customer address (read-only)",
+            "readOnly": true
+          },
+          "Address2": {
+            "type": "string",
+            "description": "Customer address line 2 (read-only)",
+            "readOnly": true
+          },
+          "PostalCode": {
+            "type": "string",
+            "description": "Customer postal code (read-only)",
+            "readOnly": true
+          },
+          "City": {
+            "type": "string",
+            "description": "Customer city (read-only)",
+            "readOnly": true
+          },
+          "State": {
+            "type": "string",
+            "description": "Customer state (read-only)",
+            "readOnly": true
+          },
+          "Country": {
+            "type": "string",
+            "description": "Customer country (read-only)",
+            "readOnly": true
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "WarehouseNum": {
+            "type": "integer",
+            "description": "Warehouse number - removed in v2",
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV1Page": {
+        "type": "object",
+        "properties": {
+          "Orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderV1"
+            }
+          },
+          "Skip": {
+            "type": "integer"
+          },
+          "Top": {
+            "type": "integer"
+          },
+          "Next": {
+            "type": "string",
+            "description": "URI of the next page (only when the page is full)"
+          }
+        },
+        "deprecated": true
+      },
+      "CustomerV2": {
+        "type": "object",
+        "description": "The customer of the order. Only CustNum is writable.",
+        "properties": {
+          "CustNum": {
+            "type": "integer",
+            "description": "Customer number"
+          },
+          "Name": {
+            "type": "string",
+            "description": "Customer name (read-only)",
+            "readOnly": true
+          },
+          "Address": {
+            "type": "string",
+            "description": "Customer address (read-only)",
+            "readOnly": true
+          },
+          "Address2": {
+            "type": "string",
+            "description": "Customer address line 2 (read-only)",
+            "readOnly": true
+          },
+          "PostalCode": {
+            "type": "string",
+            "description": "Customer postal code (read-only)",
+            "readOnly": true
+          },
+          "City": {
+            "type": "string",
+            "description": "Customer city (read-only)",
+            "readOnly": true
+          },
+          "State": {
+            "type": "string",
+            "description": "Customer state (read-only)",
+            "readOnly": true
+          },
+          "Country": {
+            "type": "string",
+            "description": "Customer country (read-only)",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV2": {
+        "type": "object",
+        "description": "Order (v2): customer as a nested object, no WarehouseNum.",
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "Customer": {
+            "$ref": "#/components/schemas/CustomerV2"
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "example": {
+          "Ordernum": 1001,
+          "Customer": {
+            "CustNum": 3001,
+            "Name": "Golden Gate Bikes",
+            "Address": "1 Test Street",
+            "Address2": "",
+            "PostalCode": "94016",
+            "City": "San Francisco",
+            "State": "CA",
+            "Country": "USA"
+          },
+          "OrderDate": "2026-07-01",
+          "ShipDate": null,
+          "PromiseDate": "2026-07-15",
+          "Carrier": "UPS",
+          "Instructions": "Leave at the door",
+          "PO": "PO-4711",
+          "Terms": "Net30",
+          "SalesRep": "BBB",
+          "BillToID": 1,
+          "ShipToID": 2,
+          "OrderStatus": "Ordered",
+          "Creditcard": "Visa"
+        }
+      },
+      "OrderV2Post": {
+        "type": "object",
+        "description": "POST body (v2): Customer.CustNum is required. WarehouseNum (like any unknown field) is rejected with 400",
+        "required": [
+          "Customer"
+        ],
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "Customer": {
+            "$ref": "#/components/schemas/CustomerV2"
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV2Put": {
+        "type": "object",
+        "description": "PUT body (v2): the complete writable representation",
+        "required": [
+          "Customer",
+          "OrderDate",
+          "ShipDate",
+          "PromiseDate",
+          "Carrier",
+          "Instructions",
+          "PO",
+          "Terms",
+          "SalesRep",
+          "BillToID",
+          "ShipToID",
+          "OrderStatus",
+          "Creditcard"
+        ],
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "Customer": {
+            "$ref": "#/components/schemas/CustomerV2"
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV2Patch": {
+        "type": "object",
+        "description": "PATCH body (v2): only the fields to change, null sets the value to unknown",
+        "properties": {
+          "Ordernum": {
+            "type": "integer",
+            "description": "Order number (read-only, assigned by the server)",
+            "readOnly": true
+          },
+          "Customer": {
+            "$ref": "#/components/schemas/CustomerV2"
+          },
+          "OrderDate": {
+            "type": "string",
+            "description": "Order date",
+            "format": "date",
+            "nullable": true
+          },
+          "ShipDate": {
+            "type": "string",
+            "description": "Ship date",
+            "format": "date",
+            "nullable": true
+          },
+          "PromiseDate": {
+            "type": "string",
+            "description": "Promise date",
+            "format": "date",
+            "nullable": true
+          },
+          "Carrier": {
+            "type": "string",
+            "description": "Carrier",
+            "maxLength": 25,
+            "nullable": true
+          },
+          "Instructions": {
+            "type": "string",
+            "description": "Shipping instructions",
+            "maxLength": 50,
+            "nullable": true
+          },
+          "PO": {
+            "type": "string",
+            "description": "Purchase order number",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Terms": {
+            "type": "string",
+            "description": "Payment terms",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "SalesRep": {
+            "type": "string",
+            "description": "Sales rep",
+            "maxLength": 4,
+            "nullable": true
+          },
+          "BillToID": {
+            "type": "integer",
+            "description": "Bill-to address id",
+            "nullable": true
+          },
+          "ShipToID": {
+            "type": "integer",
+            "description": "Ship-to address id",
+            "nullable": true
+          },
+          "OrderStatus": {
+            "type": "string",
+            "description": "Order status",
+            "maxLength": 20,
+            "nullable": true
+          },
+          "Creditcard": {
+            "type": "string",
+            "description": "Credit card",
+            "maxLength": 20,
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderV2Page": {
+        "type": "object",
+        "properties": {
+          "Orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderV2"
+            }
+          },
+          "Skip": {
+            "type": "integer"
+          },
+          "Top": {
+            "type": "integer"
+          },
+          "Next": {
+            "type": "string",
+            "description": "URI of the next page (only when the page is full)"
+          }
+        }
+      },
+      "Problem": {
+        "type": "object",
+        "description": "RFC 9457 problem details",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "about:blank"
+          },
+          "title": {
+            "type": "string",
+            "example": "Unknown field"
+          },
+          "status": {
+            "type": "integer",
+            "example": 400
+          },
+          "detail": {
+            "type": "string",
+            "example": "The field WarehouseNum is not part of this version of the API."
+          },
+          "instance": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "field": {
+                  "type": "string",
+                  "example": "WarehouseNum"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

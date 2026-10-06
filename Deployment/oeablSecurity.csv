@@ -1,0 +1,13 @@
+# Excerpt of WEB-INF/oeablSecurity.csv: the demo URIs without authentication.
+# Insert these lines BEFORE the generic "/web/**" rule - the first matching rule wins.
+# Do not use permitAll() for a real API - use your authentication (e.g. hasAnyRole(...)).
+# "url-pattern","<method>","<spring-access-expression>"
+"/web/simple/**","*","permitAll()"
+"/web/v0/**","*","permitAll()"
+"/web/v1/**","*","permitAll()"
+"/web/v2/**","*","permitAll()"
+"/web/api/**","*","permitAll()"
+"/web/Orders","*","permitAll()"
+"/web/Orders/**","*","permitAll()"
+"/web/openapi","*","permitAll()"
+"/web/openapi/**","*","permitAll()"
